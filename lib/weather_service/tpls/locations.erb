@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Available Weather Locations</title>
+  <meta charset="UTF-8">
+  <style>
+      body {
+          text-align: center;
+          background-color: PowderBlue;
+          font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+          font-size: 16px;
+      }
+
+      .content {
+          width: 100%;
+      }
+
+      .title {
+          font-size: 2em;
+          text-align: center;
+      }
+
+      .locations {
+          display: flex;
+          width: 60%;
+          justify-content: center;
+          margin: 0 auto;
+      }
+
+      .locations > ul {
+          text-align: left;
+          margin: 10px 0;
+      }
+
+      .locations > ul > li {
+          margin: 14px 0;
+      }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <div class="title">Available Weather Locations</div>
+
+    <div class="locations">
+      <ul>
+        <%- locations.each_pair do |name, location| -%>
+          <li>
+            <%- url_xml = "/weather/#{name}" -%>
+            <a href="<%= location.url -%>"><%= name -%></a> - <a href="<%= url_xml -%>"><%= url_xml -%></a>
+          </li>
+        <%- end -%>
+      </ul>
+    </div>
+
+  </div>
+</body>
+</html>

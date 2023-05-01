@@ -1,0 +1,17 @@
+environment: production
+host: 0.0.0.0
+port: 3100
+#pidfile: weather.pid
+log_rotation: monthly
+refresh_rate_minutes: 12
+
+proxy:
+#  host: x.x.x.x
+#  port: 3128
+#  user: HowlLikeWolves
+#  pass: *******************
+
+locations:
+  balchug: https://www.gismeteo.ru/weather-moscow-balchug-12905/now/
+  kaliningrad: https://www.gismeteo.ru/weather-kaliningrad-4225/now/
+  petersburg: https://www.gismeteo.ru/weather-sankt-peterburg-4079/now/

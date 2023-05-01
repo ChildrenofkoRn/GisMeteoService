@@ -1,0 +1,12 @@
+# Ignore bundler config.
+/.bundle
+
+# Ignore all logfiles and tempfiles.
+/logs/*
+!/logs/.keep
+
+# Ignore pidfiles, but keep the directory.
+/weather.pid
+
+# Ignore IDE sets
+.idea

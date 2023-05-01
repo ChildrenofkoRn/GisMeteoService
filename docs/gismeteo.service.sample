@@ -1,0 +1,63 @@
+# place file in /home/[USER]/.config/systemd/user/gismeteo.service
+#
+#
+# replace [USER] with your system user
+# replace the paths in [Service] section with the paths on your machine
+#
+#
+# run before:
+# loginctl enable-linger [USER]
+# its necessary that the service doesn't stop after leaving the shell.
+#
+# attention "--user" is an option, not a username on the system!
+#
+# run w/o sudo:
+# systemctl --user reenable gismeteo
+# systemctl --user start gismeteo
+# systemctl --user stop gismeteo
+# systemctl --user restart gismeteo
+#
+# check gismeteo is run:
+# systemctl --user status gismeteo
+# or
+# ps aux | grep [g]is_meteo
+#
+# logs:
+# journalctl --user-unit gismeteo -n 30 -f
+#
+
+[Unit]
+Description=gismeteo
+After=syslog.target network.target
+StartLimitBurst=5
+StartLimitIntervalSec=33
+
+[Service]
+Type=simple
+WorkingDirectory=/home/[USER]/data/GisMeteoService
+ExecStart=/home/[USER]/.rvm/bin/rvm 2.7.2@gis_meteo_servise do bundle exec rackup
+PIDFile=/home/[USER]/data/GisMeteoService/weather.pid
+
+# use `systemctl reload gismeteo` to send the quiet signal to GisMeteoService
+# at the start of your deploy process.
+ExecReload=/bin/kill -SIGINT $MAINPID
+ExecStop=/bin/kill -SIGINT $MAINPID
+
+
+# Greatly reduce Ruby memory fragmentation and heap usage
+# https://www.mikeperham.com/2018/04/25/taming-rails-memory-bloat/
+Environment=MALLOC_ARENA_MAX=2
+
+# if we crash, restart
+RestartSec=15
+Restart=on-failure
+
+# output goes to /var/log/syslog
+StandardOutput=syslog
+StandardError=syslog
+#
+# This will default to "bundler" if we don't specify it
+SyslogIdentifier=GisMeteoService
+
+[Install]
+WantedBy=multi-user.target
